@@ -14,6 +14,7 @@ Created on January, 24, 2013
 #Python Imports
 import time
 import csv
+import sys
 
 # QSTK Imports
 import QSTK.qstkutil.qsdateutil as du
@@ -26,11 +27,12 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 import xxh
+import fileinput
 
 from joblib_settings import memory
 from memoizer.DecoratorFactoryInstance import factory
 
-@memory.cache
+@factory.decorator
 def getFrontier(na_data):
     '''Function gets a 100 sample point frontier for given returns'''
 
@@ -110,15 +112,17 @@ def main():
     tsu.returnize0(na_data_test)
 
     li_calculate_times = []
-    for i in range(1, 10):
+    for i in range(1, 11):
         # Calculating the frontier.
-        k = i * 11
+        k = i * 10
         start = time.time()
         (lf_returns, lf_std, lna_portfolios, na_avgrets, na_std) = getFrontier(np.array(na_data[:,0:k]))
         (lf_returns_test, lf_std_test, unused, unused, unused) = getFrontier(np.array(na_data_test[:,0:k]))
         li_calculate_times.append(str(time.time() - start))
+    print li_calculate_times
+    print sys.argv[1]
 
-    with open('markowitz_first_joblib_memo.csv', 'a') as f:
+    with open(sys.argv[1], 'a') as f:
         writer = csv.writer(f)
         writer.writerow(li_calculate_times)
 
