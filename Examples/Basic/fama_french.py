@@ -91,12 +91,15 @@ if __name__ == '__main__':
         d_data[s_key] = d_data[s_key].fillna(method='ffill')
         d_data[s_key] = d_data[s_key].fillna(method='bfill')
         d_data[s_key] = d_data[s_key].fillna(1.0)
+
+
     # Getting the numpy ndarray of close prices.
     na_price = d_data['close'].values
     df_prices = d_data['close']['AAPL']
     dt_start = dt.datetime(2008, 01, 03)
     dt_end = dt.datetime(2012, 01, 03)
     i_coeff = 3
+    
     start = time.time()
     print fama_french_regression(dt_start, dt_end, df_prices, i_coeff)
     print time.time() - start

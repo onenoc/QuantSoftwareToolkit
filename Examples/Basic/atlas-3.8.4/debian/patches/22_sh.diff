@@ -1,0 +1,40 @@
+--- a/CONFIG//include/atlconf.h	2010-09-02 10:22:57.000000000 +0900
++++ b/CONFIG//include/atlconf.h	2010-09-02 10:24:30.000000000 +0900
+@@ -75,8 +75,13 @@
+ #define MachIsARMEL(mach_) \
+   ( 0 )
+ #endif
+-
+-
++#ifdef __sh__
++#define MachIsSH(mach_) \
++  ( __sh__ )
++#else
++#define MachIsSH(mach_) \
++  ( 0 )
++#endif
+ 
+ static char *f2c_namestr[5] = {"UNKNOWN","Add_", "Add__", "NoChange", "UpCase"};
+ static char *f2c_intstr[5] =
+--- a/CONFIG//src/probe_comp.c	2010-09-02 10:24:48.000000000 +0900
++++ b/CONFIG//src/probe_comp.c	2010-09-02 10:25:29.000000000 +0900
+@@ -521,6 +521,8 @@
+    if (MachIsMIPS(arch))
+ 	return(sp);
+ //      return((ptrbits == 64) ? "-mabi=64" : "-mabi=n32");
++   if (MachIsSH(arch))
++     return(sp);
+    if (!CompIsGcc(comp))
+    {
+ /*
+--- a/CONFIG//src/SpewMakeInc.c	2010-09-02 10:37:54.000000000 +0900
++++ b/CONFIG//src/SpewMakeInc.c	2010-09-02 10:38:14.000000000 +0900
+@@ -351,6 +351,8 @@
+    if (MachIsMIPS(arch))
+ 	return(sp);
+ //      return((ptrbits == 64) ? "-mabi=64" : "-mabi=n32");
++   if (MachIsSH(arch))
++     return(sp);
+    if (!CompIsGcc(comp))
+    {
+ /*

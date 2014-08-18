@@ -32,7 +32,7 @@ import fileinput
 from joblib_settings import memory
 from memoizer.DecoratorFactoryInstance import factory
 
-@factory.decorator
+#@factory.decorator
 def getFrontier(na_data):
     '''Function gets a 100 sample point frontier for given returns'''
 

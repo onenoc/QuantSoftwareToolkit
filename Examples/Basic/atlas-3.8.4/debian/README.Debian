@@ -1,0 +1,85 @@
+ATLAS for Debian
+----------------------
+
+Starting from Atlas 3.8.3-1, the whole build process has been rewritten.
+It is now using most of the debhelper tools and simplify the management of 
+other archs.
+
+Why optimized packages are no longer available?
+===============================================
+
+ Before version 3.8.3-25, optimized binary packages were provided.
+ However, due to the fact that most Atlas optimisations are done at build time,
+ it has been decided to remove them and give priority to locally built packages.
+
+ See section "Building Optimized Atlas Packages on your ARCH" on how to rebuild
+ Atlas for best performances.
+
+ See also http://people.debian.org/~sylvestre/presentation-linear-algebra.pdf
+ for more information about linear algebra libraries.
+
+How to switch between the BLAS/LAPACK implementation and ATLAS optimized version
+===============================================================================
+
+Since Atlas 3.8.3-10, it is trivial to switch between the various Atlas
+optimized version.
+More information are available here:
+http://wiki.debian.org/DebianScience/LinearAlgebraLibraries
+
+BLAS:
+update-alternatives --config libblas.so.3gf
+
+LAPACK:
+update-alternatives --config liblapack.so.3gf 
+
+
+Building Optimized Atlas Packages on your ARCH
+==============================================
+
+Building your own optimized packages of Atlas is straightforward.
+Just get the sources of the package:
+
+# apt-get source atlas
+
+and type
+
+# fakeroot debian/rules custom
+
+it should produce a package called:
+# ../libatlas3gf-base_*.deb
+
+which should be optimized for the architecture Atlas has been built on.
+
+All dependencies can be installed with the following command:
+# apt-get install build-essential dpkg-dev cdbs devscripts gfortran \
+ liblapack-dev liblapack-pic texlive-latex-base
+
+or 
+
+# apt-get build-dep atlas
+
+How to load optimized/custom atlas libraries
+============================================
+
+In the previous packages of Atlas, each packages was configured through
+/etc/ld.so.conf.d/.
+Since Atlas 3.8.3-1, this mechanism has been removed since it is forbidden
+by the Debian Policy.
+
+Please see the section:
+"How to switch between the BLAS/LAPACK implementation and ATLAS optimized version" 
+
+
+Misc
+====
+
+Thanks to David Cournapeau for providing all the patches for the shared 
+libraries managements.
+
+Most the information underneath are outdated. They are left here "in case".
+
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Wed, 24 Jun 2009 16:20:02 +0200
+Last update: Wed, 25 Aug 2010 21:42:25 +0200
+
+
